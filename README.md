@@ -31,6 +31,7 @@ module.exports = nextConfig
 # Adding Capacitor into the project
 
 `
+    
     #Install the CapacitorCLI locally 
     npm install -D @capacitor/cli
 
