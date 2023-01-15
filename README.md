@@ -1,38 +1,66 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# This is a Test App using nextjs/capacitor
 
-## Getting Started
+## If you are using Next.js to build a web app, you could use capacitor and turn it into a native ios/android app
 
-First, run the development server:
+# Preparing your Next.js app.
+### Let's start a new Nextjs application.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+`npx create-next-app test-app`
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### To build a native mobile app we need to export our application so for we need to add a new script into our **package.json** file
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+`"static": "next build && next export"`
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+### This is not going to fully work because of the image optimization; Therefore we need to change the **next.config.js** file.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+`/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  swcMinify: true,
+	images: {
+		unoptimized: true
+	}
+}
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+module.exports = nextConfig
+`
+### Now you can safely run `npm run static`
+### You should see a new folder named **out**, this folder is later going to be used by Capacitor
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+# Adding Capacitor into the project
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`
+    #Install the CapacitorCLI locally 
+    npm install -D @capacitor/cli
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+    #Initialize Capacitor in the project
+    npx cap init
 
-## Deploy on Vercel
+    #Install the required packages
+    npm install @capacitor/core @capacitor/ios @capacitor/android
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    #Add the native platforms
+    npx cap add ios
+    npx cap add android
+`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### At this point you should see the **ios** and **android** folders
+### As a final step open the **capacitor.config.ts** file and change the **webDir**
+ 
+`
+"webDir": "out",
+`
+
+### Now you should be able to run 
+
+`
+npm run static 
+npx cap sync
+`
+# Build and deploy
+
+`
+    npx cap open ios
+    npx cap open android
+`
