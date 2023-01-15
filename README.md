@@ -34,6 +34,7 @@ Now you can safely run
 # Adding Capacitor into the project
 
 `
+
     #Install the CapacitorCLI locally 
     npm install -D @capacitor/cli
 
